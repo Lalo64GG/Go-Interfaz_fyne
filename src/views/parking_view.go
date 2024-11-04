@@ -17,6 +17,7 @@ import (
 const (
 	totalSpaces   = 20
 	totalVehicles = 100
+	carImagePath  = "assets/a.png" // Ruta de la imagen del carro
 )
 
 func CreateParkingView(app fyne.App, parkingService *services.ParkingService, vehicleService *services.VehicleService, controller *controllers.VehicleController) {
@@ -27,26 +28,32 @@ func CreateParkingView(app fyne.App, parkingService *services.ParkingService, ve
 	waitingVehiclesLabel := widget.NewLabel("Vehículos esperando: " + strconv.Itoa(vehicleService.WaitingVehicles()))
 
 	// Crear un grid para representar los espacios de estacionamiento
-	parkingSlots := make([]*canvas.Rectangle, totalSpaces)
+	parkingSlots := make([]fyne.CanvasObject, totalSpaces)
 	gridContainer := container.NewGridWithColumns(5) // 5 espacios por fila
 
 	for i := 0; i < totalSpaces; i++ {
 		slotRectangle := canvas.NewRectangle(color.Gray{Y: 200}) // Color gris para espacios vacíos
 		slotRectangle.SetMinSize(fyne.NewSize(80, 80))           // Tamaño de cada espacio
-		parkingSlots[i] = slotRectangle
-		gridContainer.Add(slotRectangle)
+		parkingSlots[i] = slotRectangle                          // Guardamos el rectángulo o la imagen en el array
+		gridContainer.Add(parkingSlots[i])
 	}
 
 	// Función para actualizar el color de los espacios según el estado del vehículo
 	updateParkingSlots := func() {
-		for i, slot := range parkingSlots {
+		for i := 0; i < totalSpaces; i++ {
 			if parkingService.IsSpaceOccupied(i) {
-				slot.FillColor = color.RGBA{R: 255, G: 0, B: 0, A: 255} // Rojo si está ocupado
+				carImage := canvas.NewImageFromFile(carImagePath) // Imagen del carro si está ocupado
+				carImage.FillMode = canvas.ImageFillContain
+				carImage.SetMinSize(fyne.NewSize(80, 80))
+				parkingSlots[i] = carImage
 			} else {
-				slot.FillColor = color.Gray{Y: 200} // Gris si está libre
+				slotRectangle := canvas.NewRectangle(color.Gray{Y: 200}) // Gris si está libre
+				slotRectangle.SetMinSize(fyne.NewSize(80, 80))
+				parkingSlots[i] = slotRectangle
 			}
-			slot.Refresh() // Refrescar color para actualizar la UI
+			gridContainer.Objects[i] = parkingSlots[i] // Actualizar el objeto en el grid
 		}
+		gridContainer.Refresh() // Refrescar la interfaz de la UI
 		availableSpacesLabel.SetText("Espacios disponibles: " + strconv.Itoa(parkingService.AvailableSpaces()))
 		waitingVehiclesLabel.SetText("Vehículos esperando: " + strconv.Itoa(vehicleService.WaitingVehicles()))
 	}
