@@ -1,4 +1,3 @@
-// services/VehicleService.go
 package services
 
 import (
@@ -6,10 +5,9 @@ import (
 )
 
 type VehicleService struct {
-	Vehicles []*models.VehicleStatus
+	Vehicles []*models.VehicleStatus // Estados de todos los vehículos
 }
 
-// NewVehicleService initializes a new VehicleService with a set number of vehicles
 func NewVehicleService(totalVehicles int) *VehicleService {
 	vs := &VehicleService{}
 	for i := 0; i < totalVehicles; i++ {
@@ -20,4 +18,15 @@ func NewVehicleService(totalVehicles int) *VehicleService {
 
 func (vs *VehicleService) GetVehicle(id int) *models.VehicleStatus {
 	return vs.Vehicles[id]
+}
+
+// Método para contar la cantidad de vehículos en espera
+func (vs *VehicleService) WaitingVehicles() int {
+	count := 0
+	for _, vehicle := range vs.Vehicles {
+		if vehicle.Status == "Esperando espacio" {
+			count++
+		}
+	}
+	return count
 }

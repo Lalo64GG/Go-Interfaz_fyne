@@ -18,7 +18,8 @@ func NewVehicleController(parkingService *services.ParkingService, vehicleServic
 	}
 }
 
-func (vc *VehicleController) StartVehicleSimulation(id int) {
+func (vc *VehicleController) StartVehicleSimulation(id int) { // Obtiene un vehículo por su ID y llama a ParkVehicle en ParkingService para simular el proceso de estacionamiento.
+
 	vehicle := vc.VehicleService.GetVehicle(id)
 	vc.ParkingService.ParkVehicle(vehicle)
 }

@@ -1,4 +1,3 @@
-// utils/RandomTime.go
 package utils
 
 import "math/rand"
