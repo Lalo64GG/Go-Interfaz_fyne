@@ -1,4 +1,4 @@
-Simulador de Estacionamiento
+Simulador de Estacionamiento en GO
 
 Este proyecto es un simulador de estacionamiento desarrollado en Go, utilizando el framework de interfaz gráfica Fyne. El simulador permite observar el estado de los vehículos en el estacionamiento, mostrando información sobre los espacios disponibles, vehículos en espera y estado de cada vehículo.
 
@@ -11,14 +11,14 @@ Instalación
 
 1. Clona este repositorio
 ```bash
-git clone https://github.com/tu_usuario/simulador-estacionamiento.git
-cd simulador-estacionamiento
+git clone https://github.com/Lalo64GG/Simulador-Estacionamiento-GO.git
+cd Simulador-Estacionamiento-GO
 ```
 
 2. Instala las dependencias de Fyne
 Asegúrate de tener Go instalado y configura el módulo de Go para el proyecto:
 ```bash
-go mod init simulador-estacionamiento
+go mod init Simulador-Estacionamiento-GO
 go mod tidy
 ```
 
@@ -29,7 +29,7 @@ go get fyne.io/fyne/v2
 
 3. Ejecuta el simulador
 ```bash
-go run src/main.go
+go run ./src/main.go
 ```
 
 Uso del Proyecto
